@@ -182,7 +182,8 @@ public class homeLogin extends javax.swing.JFrame {
         boolean check = myConnection.login(username, password);
             if(!username.equals("")&& !password.equals("")){
                 if(check == true){
-                JOptionPane.showMessageDialog(this, "dang nhap thanh cong");
+//                    JOptionPane.showMessageDialog(this, "dang nhap thanh cong");
+                    home.setVisible(true);
                 }else{
                     JOptionPane.showMessageDialog(this,"tên đăng nhập or mk sai","lỗi",JOptionPane.ERROR_MESSAGE);
                 }
