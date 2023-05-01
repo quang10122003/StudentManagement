@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import student.Student;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import student.Account;
 // kết nối mysql 
 public class MyConnection {
     public static Connection getJDBConnection(){
@@ -44,5 +45,18 @@ public class MyConnection {
             Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    // đăng ký  
+    public void register(Account account){
+        Connection conn = getJDBConnection();
+        String sql = "INSERT INTO admin (username, password) VALUES(?,?)";
+        try {
+            PreparedStatement ps =  conn.prepareStatement(sql);
+            ps.setString(1,account.getUsername());
+            ps.setString(2,account.getPassword());
+            int rs = ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -175,7 +175,7 @@ public class Home extends javax.swing.JFrame {
 
         jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
 
-        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        jDateChooser1.setDateFormatString("");
         jDateChooser1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
 
         jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
@@ -543,7 +543,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1424, Short.MAX_VALUE)))
+                        .addComponent(jTabbedPane1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

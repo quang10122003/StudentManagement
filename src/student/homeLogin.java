@@ -2,6 +2,7 @@
 package student;
 
 import db.MyConnection;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -171,9 +172,21 @@ public class homeLogin extends javax.swing.JFrame {
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
-
+// even nút đăng ký 
     private void dangkyjButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dangkyjButton1ActionPerformed
-        // TODO add your handling code here:
+        String username = username1Field.getText();
+        String password = Password1Field.getText();
+        if(!username.equals("")&& !password.equals("")){
+                Account account = new Account();
+                account.setUsername(username);
+                account.setPassword(password);
+                myConnection.register(account);
+                
+                JOptionPane.showMessageDialog(this,"Đăng ký thành công");
+        }else{
+            JOptionPane.showMessageDialog(this,"chưa nhập đủ thông tin","Lỗi",JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_dangkyjButton1ActionPerformed
 // even nut đange nhập 
     private void loginjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginjButtonActionPerformed
@@ -184,12 +197,13 @@ public class homeLogin extends javax.swing.JFrame {
                 if(check == true){
 //                    JOptionPane.showMessageDialog(this, "dang nhap thanh cong");
                     home.setVisible(true);
+                    this.dispose();
                 }else{
                     JOptionPane.showMessageDialog(this,"tên đăng nhập or mk sai","lỗi",JOptionPane.ERROR_MESSAGE);
                 }
             }else{
                 JOptionPane.showMessageDialog(this,"vui lòng nhập đủ thông tin","lỗi",JOptionPane.ERROR_MESSAGE);
-                }
+            }
     }//GEN-LAST:event_loginjButtonActionPerformed
 
     /**
