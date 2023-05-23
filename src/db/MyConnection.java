@@ -1,5 +1,6 @@
 
 package db;
+import com.mysql.cj.xdevapi.Statement;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,10 +9,12 @@ import java.util.logging.Logger;
 import student.Student;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import student.Account;
 // kết nối mysql 
 public class MyConnection {
-    public static Connection getJDBConnection(){
+    public  Connection getJDBConnection(){
        String url = "jdbc:mysql://localhost:3306/student_management";
        String user ="root";
        String password ="quangcuon2k3";

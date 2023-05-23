@@ -11,47 +11,111 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Student {
-
-    Connection con = MyConnection.getJDBConnection();
-    PreparedStatement ps;
-
-    //lấy hàng tối đa của bảng(auto create id)
-    public int getMax() {
-        int id = 0;
-        Statement st;
-        try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery("chọn max(id) trong bảng student");
-            while (rs.next()) {
-                id = rs.getInt(1);
-            }
-        }catch (SQLException ex) {
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return id +1;
-    }
-    // thêm data sinh viên vào table
-    public void insert(int id,String hovaten,String ngaysinh,String gioitinh,String gmail,String sdt,String cha,String me,String quequan,String noicutru){
-        String sql = "thêm sinh viên ?";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1,id);
-            ps.setString(2, hovaten);
-            ps.setString(3, ngaysinh);
-            ps.setString(4, gioitinh);
-            ps.setString(5,gmail);
-            ps.setString(6, sdt);
-            ps.setString(7, cha);
-            ps.setString(8, me);
-            ps.setString(9, quequan);
-            ps.setString(10, noicutru);
-            if(ps.executeUpdate()>0){
-                JOptionPane.showMessageDialog(null, "sinh viên đc thêm thành công");
-            }
-        }catch(SQLException ex){
-            Logger.getLogger(Student.class.getName()).log(Level.SEVERE,null,ex);
-            
-        }
+    private int id;
+    private String name;    
+    private String date_of_birth;
+    private String gender;
+    private String email;
+    private String phone;
+    private String father_name;
+    private String mother_name;
+    private String address1;
+    private String address2;
+    
+    public Student(){
         
     }
+    public Student(int id,String name,String date_of_birth,String gender,String email,String phone,String father_name,String mother_name,String address1,String address2){
+        this.id = id;
+        this.name = name;
+        this.date_of_birth = date_of_birth;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.father_name = father_name;
+        this.mother_name = mother_name;
+        this.address1 = address1;
+        this.address2 = address2;  
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFather_name() {
+        return father_name;
+    }
+
+    public String getMother_name() {
+        return mother_name;
+    }
+
+    public String getAddress1() {
+        return address1;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setFather_name(String father_name) {
+        this.father_name = father_name;
+    }
+
+    public void setMother_name(String mother_name) {
+        this.mother_name = mother_name;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+    
 }
