@@ -133,8 +133,8 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="SINH VI&#xca;N">
-                    <Property name="tabTitle" type="java.lang.String" value="SINH VI&#xca;N"/>
+                  <JTabbedPaneConstraints tabName="QU&#x1ea2;N L&#xdd;">
+                    <Property name="tabTitle" type="java.lang.String" value="QU&#x1ea2;N L&#xdd;"/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>

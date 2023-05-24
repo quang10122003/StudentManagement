@@ -1,224 +1,28 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
 package student;
-import com.mysql.cj.xdevapi.Statement;
-import db.MyConnection;
-import java.awt.Color;
-import java.nio.channels.SelectionKey;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.sql.DriverManager;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.table.DefaultTableModel;
-import student.homeLogin;
-public class Home extends javax.swing.JFrame {
-    public String idGoc ;
-    private Student student = new Student();
-    private DefaultTableModel model;
-      
-    
-    public Home() {
-        initComponents();
-        showJtable();
-        table();
-    }
-    
-    @SuppressWarnings("unchecked")
-    private void table(){
-        model = (DefaultTableModel) jTable1.getModel();
-        jTable1.setRowHeight(30);
-        jTable1.setShowGrid(true);
-        jTable1.setGridColor(Color.black);
-        jTable1.setBackground(Color.WHITE);
-    }   
-    public void showJtable(){
-         try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-            PreparedStatement st =conn.prepareStatement("SELECT * FROM student");
-            ResultSet rs = st.executeQuery();
-            DefaultTableModel model =(DefaultTableModel)jTable1.getModel();
-            while(rs.next()){
-                 Object objList[] = {rs.getInt("id"),rs.getString("name"),rs.getString("date_of_birth"),rs.getString("gender"),rs.getString("email"),rs.getString("phone"),rs.getString("father_name"),rs.getString("mother_name"),rs.getString("address1"),rs.getString("address2")}; 
-                 model.addRow(objList);
-            }
-        }catch(SQLException ex){
-             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     }
-     
-    public void insert(Student student){
-        String sql = "INSERT INTO student (id, name, date_of_birth, gender, email, phone, father_name, mother_name, address1, address2) VALUES(?,?,?,?,?,?,?,?,?,?)";
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, student.getId());
-            ps.setString(2, student.getName());
-            ps.setString(3, student.getDate_of_birth());
-            ps.setString(4, student.getGender());
-            ps.setString(5, student.getEmail());
-            ps.setString(6, student.getPhone());
-            ps.setString(7, student.getFather_name());
-            ps.setString(8, student.getMother_name());
-            ps.setString(9, student.getAddress1());
-            ps.setString(10, student.getAddress2());
-            int rs = ps.executeUpdate();
-            ps.close();
-            conn.close();
-            if(rs>0){
-                JOptionPane.showMessageDialog(this,"thêm thành công");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    public void insert2(Student student){
-        String sql ="INSERT INTO tksv (id, username) VALUES(?,?)";
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, student.getId());
-            ps.setString(2, student.getName());
-            int rs = ps.executeUpdate();
-            ps.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    
-    public void update(Student student){
-        String sql = "update student set name = ?,date_of_birth = ?,gender = ?,email = ?,phone = ?,"
-                    +"father_name = ?, mother_name = ?, address1 = ?, address2 = ? WHERE id = ?";
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, student.getName());
-            ps.setString(2, student.getDate_of_birth());
-            ps.setString(3, student.getGender());
-            ps.setString(4, student.getEmail());
-            ps.setString(5, student.getPhone());
-            ps.setString(6, student.getFather_name());
-            ps.setString(7, student.getMother_name());
-            ps.setString(8, student.getAddress1());
-            ps.setString(9, student.getAddress2());
-            ps.setInt(10, student.getId());
-            int rs = ps.executeUpdate();
-            if(rs >0){
-                JOptionPane.showConfirmDialog(null, "cập nhật thành công");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }   
-    
-    public void delete(Student student){
-        String sql = "delete from student where (id = ?)";
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, student.getId());
 
-            int rs = ps.executeUpdate();
-            ps.close();
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
+/**
+ *
+ * @author qdao1
+ */
+public class homeSv extends javax.swing.JFrame {
+
+    /**
+     * Creates new form homeSv
+     */
+    public homeSv() {
+        initComponents();
     }
-    
-    // check id trùng 
-    public boolean isID(String id) throws SQLException{
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_management","root","quangcuon2k3");
-        String sql ="SELECT * FROM student where id = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, id);
-            ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
-                return true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-      
-   
-    // ham clear phuong thuc nhap 
-    private void clearStudent(){  
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-    }
-    
-    // ham check thong tin
-    public boolean isEmptyStudent(){
-        if(jTextField1.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu id");
-            return false;
-        }
-        if(jTextField2.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu tên học sinh");
-            return false;
-        }
-        if(jDateChooser2.getDate() == null){
-            JOptionPane.showConfirmDialog(this, "Thiếu Ngày tháng năm sinh");
-            return false;
-        }
-        if(jDateChooser2.getDate().compareTo(new Date())>0){
-            JOptionPane.showConfirmDialog(this, "Mày đến từ tương lai à");
-            return false;
-        }if(jTextField3.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "thiếu gamil");
-            return false;
-        }
-        if(!jTextField3.getText().matches("^.+@.+\\..+$")){
-            JOptionPane.showConfirmDialog(this, "địa chỉ gmail ko hợp lệ");
-            return false;
-        }
-        if(jTextField4.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu SĐT");
-            return false;
-        }
-        if(jTextField5.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu tên cha của sinh viên");
-            return false;
-        }
-        if(jTextField6.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu tên mẹ của sinh viên");
-            return false;
-        }
-        if(jTextField7.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu quê quán");
-            return false;
-        }
-        if(jTextField8.getText().isEmpty()){
-            JOptionPane.showConfirmDialog(this, "Thiếu thiếu nơi cư trú");
-            return false;
-        }
-        return true;
-    }
-     
-    // giao diện 
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -610,7 +414,7 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,7 +474,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("QUẢN LÝ", jPanel3);
+        jTabbedPane1.addTab("SINH VIÊN", jPanel3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -681,7 +485,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTabbedPane1)))
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1350, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -709,25 +513,47 @@ public class Home extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-   
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField4KeyTyped
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-// even button thoát
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        int a = JOptionPane.showConfirmDialog(this, "bạn có chắc chắn muốn thoát?","thoát",JOptionPane.YES_NO_OPTION);
-        if(a == 0){
-            this.dispose();
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int selectedRow = jTable1.getSelectedRow();
+        idGoc = jTable1.getValueAt(selectedRow, 0).toString();
+        model = (DefaultTableModel) jTable1.getModel();
+        jTextField1.setText(model.getValueAt(selectedRow, 0).toString());
+        jTextField2.setText(model.getValueAt(selectedRow, 1).toString());
+        try {
+
+            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(model.getValueAt(selectedRow, 2).toString());
+            jDateChooser2.setDate(date);
+        } catch (ParseException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton9ActionPerformed
-//eve
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        clearStudent();
-    }//GEN-LAST:event_jButton8ActionPerformed
-// even button "them"
+        jComboBox1.setSelectedItem(model.getValueAt(selectedRow,3).toString());
+        jTextField3.setText(model.getValueAt(selectedRow, 4).toString());
+        jTextField4.setText(model.getValueAt(selectedRow, 5).toString());
+        jTextField5.setText(model.getValueAt(selectedRow, 6).toString());
+        jTextField6.setText(model.getValueAt(selectedRow, 7).toString());
+        jTextField7.setText(model.getValueAt(selectedRow, 8).toString());
+        jTextField8.setText(model.getValueAt(selectedRow, 9).toString());
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String id = jTextField1.getText();
         String hovaten = jTextField2.getText();
@@ -756,13 +582,12 @@ public class Home extends javax.swing.JFrame {
                     student.setAddress1(quequan);
                     student.setAddress2(noicutru);
                     this.insert(student);
-                    
-                    
-//                     update lai tabel
+
+                    //                     update lai tabel
                     model = (DefaultTableModel) jTable1.getModel();
                     model.addRow(new Object[]{id, hovaten, ngaysinhStr, gioitinh, gmail, sdt, cha, me, quequan, noicutru});
                     model.fireTableDataChanged();
-                    
+
                     // clear các trường thông tin nhập vào
                     insert2(student);
                     clearStudent();
@@ -772,59 +597,12 @@ public class Home extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
-                         
+
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-// ko cho nhập sdt bằng chữ
-    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
-        if(!Character.isDigit(evt.getKeyChar())){
-            evt.consume();
-        }
-    }//GEN-LAST:event_jTextField4KeyTyped
-// even nut delete
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String id = jTextField1.getText();
-        Student student = new Student();
-        student.setId(Integer.parseInt(id));
-        delete(student);
-        JOptionPane.showMessageDialog(this,"xóa thanh công");
-        // update lai tabe
-            int selectedRow = jTable1.getSelectedRow();
-            model = (DefaultTableModel) jTable1.getModel();
-            model.removeRow(selectedRow);
-            model.fireTableDataChanged();
-                
-                // clear các trường thông tin nhập vào 
-                clearStudent();
-        
-    }//GEN-LAST:event_jButton6ActionPerformed
-// lấy dữ liệu từ table ra 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int selectedRow = jTable1.getSelectedRow();
-        idGoc = jTable1.getValueAt(selectedRow, 0).toString();
-        model = (DefaultTableModel) jTable1.getModel();
-        jTextField1.setText(model.getValueAt(selectedRow, 0).toString());
-        jTextField2.setText(model.getValueAt(selectedRow, 1).toString());
-        try {
-            
-            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(model.getValueAt(selectedRow, 2).toString());
-            jDateChooser2.setDate(date);
-        } catch (ParseException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jComboBox1.setSelectedItem(model.getValueAt(selectedRow,3).toString());
-        jTextField3.setText(model.getValueAt(selectedRow, 4).toString());
-        jTextField4.setText(model.getValueAt(selectedRow, 5).toString());
-        jTextField5.setText(model.getValueAt(selectedRow, 6).toString());
-        jTextField6.setText(model.getValueAt(selectedRow, 7).toString());
-        jTextField7.setText(model.getValueAt(selectedRow, 8).toString());
-        jTextField8.setText(model.getValueAt(selectedRow, 9).toString());
-        
-        
-    }//GEN-LAST:event_jTable1MouseClicked
-// even update
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       
+
         String id = jTextField1.getText();
         String hovaten = jTextField2.getText();
         Date ngaysinh = jDateChooser2.getDate();
@@ -853,25 +631,46 @@ public class Home extends javax.swing.JFrame {
                 student.setMother_name(me);
                 student.setAddress1(quequan);
                 student.setAddress2(noicutru);
-                update(student);    
-                    
-            // update lai tabel
-//                model = (DefaultTableModel) jTable1.getModel();
-//                model.;
-                
-                    
-            //clear các trường thông tin nhập vào
-                clearStudent() ;    
-//            }           
-            } 
+                update(student);
+
+                // update lai tabel
+                //                model = (DefaultTableModel) jTable1.getModel();
+                //                model.;
+
+                //clear các trường thông tin nhập vào
+                clearStudent() ;
+                //            }
+        }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
-        if(!Character.isDigit(evt.getKeyChar())){
-            evt.consume();
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String id = jTextField1.getText();
+        Student student = new Student();
+        student.setId(Integer.parseInt(id));
+        delete(student);
+        JOptionPane.showMessageDialog(this,"xóa thanh công");
+        // update lai tabe
+        int selectedRow = jTable1.getSelectedRow();
+        model = (DefaultTableModel) jTable1.getModel();
+        model.removeRow(selectedRow);
+        model.fireTableDataChanged();
+
+        // clear các trường thông tin nhập vào
+        clearStudent();
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        clearStudent();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        int a = JOptionPane.showConfirmDialog(this, "bạn có chắc chắn muốn thoát?","thoát",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            this.dispose();
         }
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -890,23 +689,22 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeSv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeSv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeSv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(homeSv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                new homeSv().setVisible(true);
             }
         });
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

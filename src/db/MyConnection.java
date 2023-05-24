@@ -62,4 +62,23 @@ public class MyConnection {
             Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public boolean loginSv(String username ,String password){
+        Connection conn = getJDBConnection();
+        String sql ="SELECT * FROM tksv WHERE username = ? and id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }
